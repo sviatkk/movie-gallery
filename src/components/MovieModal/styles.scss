@@ -1,0 +1,23 @@
+.movieModalContainer{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .movieModalBoxContainer{
+        background-color: white;
+        width:800px;
+        padding: 30px;
+        border-radius: 5px;
+        position: relative;
+        .closeModalButton{
+            position: absolute;
+            top:-10px;
+            right:-10px;
+            background-color: white;
+            width:26px;
+            height:26px;
+            border-radius: 100%;
+            border:1px solid black;
+        }
+    }  
+}
