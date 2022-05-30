@@ -40,7 +40,7 @@ const MovieModal = (props) => {
                         }}
                     />
                     <div style = {{display:"flex", alignItems: " center", marginTop:"16px"}}>
-                        <FavoriteButton/>
+                        <FavoriteButton movieId = {openedMovieModalObject.id}/>
                         <Typography sx = {{ml:2}}>
                             {openedMovieModalObject.year}
                         </Typography>
@@ -70,10 +70,10 @@ const MovieModal = (props) => {
                         {openedMovieModalObject.description}
                     </Typography>
                     <Typography  sx={{ mt: 2, mb: 2 }}>
-                        <Typography component="h3">Director:</Typography>  {openedMovieModalObject.director}
+                        Director: {openedMovieModalObject.director}
                     </Typography>
                     <Typography sx = {{mr:2}}>
-                        <Typography component="h3">Stars:</Typography> {openedMovieModalObject.starring.join(", ")} 
+                        Stars: {openedMovieModalObject.starring.join(", ")} 
                     </Typography>
                     <div className='closeModalButton' onClick={handleCloseModal}>
                         <CloseIcon/>

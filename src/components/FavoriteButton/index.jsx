@@ -1,8 +1,26 @@
 import React from "react"
 import StarIcon from '@mui/icons-material/Star';
+import { observer, inject } from "mobx-react"
 
-const FavoriteButton = () => {
-    return true ? <StarIcon sx = {{color:"black"}}/> : <StarIcon sx = {{color:"white"}}/>
+const FavoriteButton = (props) => {
+    const {
+        movieId,
+        moviesModel: {
+            favoriteMoviesId,
+            setFavoriteMoviesId
+        }
+    } = props
+    const handleClick = (e) => {
+        setFavoriteMoviesId(movieId)
+        e.stopPropagation()
+    }
+    return <div onClick={handleClick}>
+        {favoriteMoviesId.includes(movieId) ? 
+            <StarIcon sx = {{color:"orange"}}/> : 
+            <StarIcon sx = {{color:"black"}}/>}
+    </div>
 }
 
-export default FavoriteButton
+export default inject(
+    "moviesModel",
+  )(observer(FavoriteButton))

@@ -16,8 +16,8 @@ const MoviePreviewData = (props) => {
         modalModel:{setOpenedMovieModalObject}
     } = props
     return <Card 
-        sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding:"10px" }}
-        onClick={() => setOpenedMovieModalObject(movieData)}
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding:"10px", position: "relative"}}
+        onClick={() => setOpenedMovieModalObject(movieData)} 
     >
         <div className='movieCardMedia'>
             <CardMedia
@@ -26,18 +26,18 @@ const MoviePreviewData = (props) => {
                 alt="random"
                 sx = {{height:"240px", objectFit:"cover"}}
             />
-            <div className= "favoriteMovieIcon">
-                <FavoriteButton/>
-            </div>
         </div>
         <CardContent sx={{ flexGrow: 1 }}>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom>
                 {movieData.name}
             </Typography>
             <Typography>
-                {movieData.description}
+                {movieData.year}
             </Typography>
         </CardContent>
+        <div className= "favoriteMovieIcon">
+            <FavoriteButton movieId = {movieData.id}/>
+        </div>
     </Card>
 }
 
