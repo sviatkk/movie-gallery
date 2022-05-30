@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ImgBuilder from '../../res/images/imgBuilder';
 import FavoriteButton from '../FavoriteButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { observer, inject } from "mobx-react"
 
 import './styles.scss'
 
@@ -15,61 +16,75 @@ import {
     IconButton
 } from '@mui/material';
 
-const MovieModal = () => {
-  return <Modal open = {true} className = "movieModalContainer" >
-    <Grid container spacing = {2} className='movieModalBoxContainer'>
-        <Grid item xs = {4} className='leftModalContainer'>
-            <img src = {ImgBuilder.dune} 
-                style = {{
-                    maxWidth:"100%"
-                }}
-            />
-            <div style = {{display:"flex", alignItems: " center", marginTop:"16px"}}>
-                <FavoriteButton/>
-                <Typography sx = {{ml:2}}>
-                    2011
-                </Typography>
-            </div>
-            <div style = {{
-                display: "flex",
-                flexWrap: "wrap",
-                marginTop: "16px"
-            }}>
-                {["wordkkkkkkkkkkkkk 1", "word 2", "word 3", "word 4"].map((genre, index) => 
-                    <Button 
-                        sx = {{mr:1, mb:1}} 
-                        variant = "contained"
-                        size = "small"
-                        key = {index}
-                    >
-                        {genre}
-                    </Button>
-                )}
-            </div>
-        </Grid>
-        <Grid item xs = {8} className='rightModalContainer'>
-            <Typography variant="h6" component="h2">
-                Text in a modal
-            </Typography>
-            <Typography  sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-            <Typography  sx={{ mt: 2, mb: 2 }}>
-                Director: III IIII III
-            </Typography>
-            <div style = {{display:"flex", alignItems: " center"}}>
-                <Typography sx = {{mr:2}}>
-                    Stars: 
-                </Typography>
-                <Rating name="read-only" value={3} readOnly />
-            </div>
-            <div className='closeModalButton'>
-                <CloseIcon/>
-            </div>
-        </Grid>
-    </Grid>
-</Modal>
+const MovieModal = (props) => {
+    const {
+        modalModel : {
+            openedMovieModalObject,
+            setOpenedMovieModalObject
+        }
+    } = props
+    const handleCloseModal = () => {
+        setOpenedMovieModalObject(null)
+    }
+    
+    return openedMovieModalObject !== null ? 
+        <Modal 
+            open = {openedMovieModalObject !== null} className = "movieModalContainer" 
+            onClose={handleCloseModal}
+        >
+            <Grid container spacing = {2} className='movieModalBoxContainer'>
+                <Grid item xs = {4} className='leftModalContainer'>
+                    <img src = {openedMovieModalObject.img} 
+                        style = {{
+                            maxWidth:"100%"
+                        }}
+                    />
+                    <div style = {{display:"flex", alignItems: " center", marginTop:"16px"}}>
+                        <FavoriteButton/>
+                        <Typography sx = {{ml:2}}>
+                            {openedMovieModalObject.year}
+                        </Typography>
+                    </div>
+                    <div style = {{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        marginTop: "16px"
+                    }}>
+                        {openedMovieModalObject.genres.map((genre, index) => 
+                            <Button 
+                                sx = {{mr:1, mb:1}} 
+                                variant = "contained"
+                                size = "small"
+                                key = {index}
+                            >
+                                {genre}
+                            </Button>
+                        )}
+                    </div>
+                </Grid>
+                <Grid item xs = {8} className='rightModalContainer'>
+                    <Typography variant="h6" component="h2">
+                        {openedMovieModalObject.name}
+                    </Typography>
+                    <Typography  sx={{ mt: 2 }}>
+                        {openedMovieModalObject.description}
+                    </Typography>
+                    <Typography  sx={{ mt: 2, mb: 2 }}>
+                        <Typography component="h3">Director:</Typography>  {openedMovieModalObject.director}
+                    </Typography>
+                    <Typography sx = {{mr:2}}>
+                        <Typography component="h3">Stars:</Typography> {openedMovieModalObject.starring.join(", ")} 
+                    </Typography>
+                    <div className='closeModalButton' onClick={handleCloseModal}>
+                        <CloseIcon/>
+                    </div>
+                </Grid>
+            </Grid>
+        </Modal>: 
+        null
 
 }
 
-export default MovieModal;
+export default inject(
+    "modalModel",
+)(observer(MovieModal));

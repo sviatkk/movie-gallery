@@ -5,20 +5,26 @@ import {
     CardMedia,
     Typography,
 } from '@mui/material';
+import { observer, inject } from "mobx-react"
 import FavoriteButton from '../FavoriteButton';
 
 import './styles.scss'
 
 const MoviePreviewData = (props) => {
+    const {
+        movieData,
+        modalModel:{setOpenedMovieModalObject}
+    } = props
     return <Card 
         sx={{ height: '100%', display: 'flex', flexDirection: 'column', padding:"10px" }}
+        onClick={() => setOpenedMovieModalObject(movieData)}
     >
         <div className='movieCardMedia'>
             <CardMedia
-                component="img"
-                
-                image="https://source.unsplash.com/random"
+                component="img"       
+                image = {movieData.img}
                 alt="random"
+                sx = {{height:"240px", objectFit:"cover"}}
             />
             <div className= "favoriteMovieIcon">
                 <FavoriteButton/>
@@ -26,14 +32,15 @@ const MoviePreviewData = (props) => {
         </div>
         <CardContent sx={{ flexGrow: 1 }}>
             <Typography gutterBottom variant="h5" component="h2">
-                Heading
+                {movieData.name}
             </Typography>
             <Typography>
-                This is a media card. You can use this section to describe the
-                content.
+                {movieData.description}
             </Typography>
         </CardContent>
     </Card>
 }
 
-export default MoviePreviewData
+export default inject(
+    "modalModel",
+)(observer(MoviePreviewData))

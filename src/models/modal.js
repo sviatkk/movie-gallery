@@ -2,12 +2,12 @@ import { makeAutoObservable} from 'mobx'
 
 export class ModalModel {
     constructor(){
-        this.openModal = false
+        this.openedMovieModalObject = null
         makeAutoObservable(this)
     }
 
-    setopenModal = (data) => {
-        this.openModal = data
+    setOpenedMovieModalObject= (data) => {
+        this.openedMovieModalObject = data
     }
 }
 
