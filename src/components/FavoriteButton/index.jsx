@@ -14,7 +14,7 @@ const FavoriteButton = (props) => {
         setFavoriteMoviesId(movieId)
         e.stopPropagation()
     }
-    return <div onClick={handleClick}>
+    return <div onClick={handleClick} style = {{cursor:"pointer"}}>
         {favoriteMoviesId.includes(movieId) ? 
             <StarIcon sx = {{color:"orange"}}/> : 
             <StarIcon sx = {{color:"black"}}/>}
