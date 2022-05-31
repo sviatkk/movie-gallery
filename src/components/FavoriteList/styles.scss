@@ -12,6 +12,11 @@
         flex-grow: 1;
         padding-left: 5px;
       }
+      .favoriteListItemRemove{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
     }
   }
 }

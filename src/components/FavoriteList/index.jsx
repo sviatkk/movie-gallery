@@ -9,28 +9,25 @@ import './styles.scss'
 const FavoriteList = (props) => {	
 	const {
 		moviesModel:{
-			movies,
-			favoriteMoviesId,
-			setFavoriteMoviesId
+			filteredMovies,
+			setFavoriteMovies	
 		}
 	} = props
 
-	const handleRemove = (id) =>{
-		setFavoriteMoviesId(id)
+	const handleRemove = (movie) =>{
+		setFavoriteMovies(movie)
 	}
-
+	let favoriteMovies = filteredMovies.filter(item => item.favorite)
 	return <Card sx = {{padding:"10px"}} className = "favoriteListContainer">
 		<Typography variant = "h5" sx = {{textAlign:"center"}}>Favorite list</Typography>
-		{favoriteMoviesId.length ? 
+		{favoriteMovies.length ? 
 			<ul>
-				{favoriteMoviesId.map(movieId => {
-					let movie = movies.find(movie => movie.id === movieId)
-					return movie && 
-						<li key = {movieId}>
-							&#9679;
-							<span>{movie.name}</span> 
-							<div onClick={()=>handleRemove(movieId)} style = {{cursor:"pointer"}}><CloseIcon /></div>
-						</li>
+				{favoriteMovies.map(movie => {
+					return <li key = {movie.id}>
+						&#9679;
+						<span>{movie.name}</span> 
+						<div onClick={()=>handleRemove(movie)} className = "favoriteListItemRemove"><CloseIcon /></div>
+					</li>
 				})}
 			</ul>:
 			<div style = {{textAlign: "center"}}>No favorite movies at the moment</div>

@@ -4,28 +4,39 @@ import { makeAutoObservable} from 'mobx'
 export class MoviesModel {
     constructor(){
         this.movies = []
-        this.favoriteMoviesId = []
+        this.filteredMovies = []
+        this.allGenres = new Set()
         makeAutoObservable(this)
     }
 
-    setFavoriteMoviesId = (id) => {
-        let copyFavoriteMoviesId = this.favoriteMoviesId
-        let moviesId = this.movies.map(movie => movie?.id)
-        let result = copyFavoriteMoviesId
-
-        if(moviesId.includes(id)){
-            if(copyFavoriteMoviesId.includes(id)){
-                result = copyFavoriteMoviesId.filter(movieId => movieId !== id)
-            }else{
-                result.push(id)
-            }
+    setActiveFilters = (activeGenres = []) => {
+        if(!activeGenres.length){
+            this.filteredMovies = this.movies
+            return
         }
-        
-        this.favoriteMoviesId = result
+        let filteredMoviesDraft = this.movies.filter(movie => movie.genres.some(genre => activeGenres.includes(genre)))
+        this.filteredMovies = filteredMoviesDraft
+    }
+
+    setFavoriteMovies = (movie) => {
+        let result
+        if(movie.favorite){
+            result = {...movie, favorite: false}
+        }else{
+            result = {...movie, favorite: true}
+        }
+        this.filteredMovies = this.filteredMovies.map(item => item.id === movie.id ? result : item)
+        this.movies = this.movies.map(item => item.id === movie.id ? result : item)
+
     }
 
     setMovies = (data) => {
-        this.movies = data
+        let dataWrapper = data.map(item => {return {...item, favorite: false}})
+        this.movies = dataWrapper
+        this.filteredMovies = dataWrapper
+        let genres = new Set()
+        data.forEach(movie => movie.genres.forEach(genre => genres.add(genre)))
+        this.allGenres = genres
     }
 
     getMovies = () =>{

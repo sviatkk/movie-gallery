@@ -36,7 +36,7 @@ const MoviePreviewData = (props) => {
             </Typography>
         </CardContent>
         <div className= "favoriteMovieIcon">
-            <FavoriteButton movieId = {movieData.id}/>
+            <FavoriteButton movie = {movieData}/>
         </div>
     </Card>
 }

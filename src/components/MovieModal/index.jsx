@@ -40,7 +40,7 @@ const MovieModal = (props) => {
                         }}
                     />
                     <div style = {{display:"flex", alignItems: " center", marginTop:"16px"}}>
-                        <FavoriteButton movieId = {openedMovieModalObject.id}/>
+                        <FavoriteButton movie = {openedMovieModalObject}/>
                         <Typography sx = {{ml:2}}>
                             {openedMovieModalObject.year}
                         </Typography>
