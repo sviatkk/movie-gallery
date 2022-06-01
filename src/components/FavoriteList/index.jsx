@@ -10,14 +10,15 @@ const FavoriteList = (props) => {
 	const {
 		moviesModel:{
 			filteredMovies,
+			favoriteMoviesId,
 			setFavoriteMovies	
 		}
 	} = props
 
 	const handleRemove = (movie) =>{
-		setFavoriteMovies(movie)
+		setFavoriteMovies(movie.id)
 	}
-	let favoriteMovies = filteredMovies.filter(item => item.favorite)
+	let favoriteMovies = filteredMovies.filter(movie => favoriteMoviesId.includes(movie.id))
 	return <Card sx = {{padding:"10px"}} className = "favoriteListContainer">
 		<Typography variant = "h5" sx = {{textAlign:"center"}}>Favorite list</Typography>
 		{favoriteMovies.length ? 
